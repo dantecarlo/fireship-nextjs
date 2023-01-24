@@ -1,0 +1,11 @@
+{
+  "component": {
+    "navigation": {
+      "home": "Home"
+    },
+    "navbar": {
+      "writePost": "Write Post",
+      "login": "Log in"
+    }
+  }
+}
