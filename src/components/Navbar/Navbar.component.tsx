@@ -4,14 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { HOME_ROUTE_INDEX, routes } from 'src/constants';
+import useAuthFirebaseHook from 'src/hooks/useAuthFirebaseHook';
 import i18n from 'src/i18n/en.json';
 
 const Navbar = () => {
+  const { user, username } = useAuthFirebaseHook();
   const homeRoute = routes[HOME_ROUTE_INDEX];
-  const username = null;
-  const user = {
-    photoURL: 'https://picsum.photos/200'
-  };
 
   return (
     <nav className="navbar">
@@ -35,7 +33,12 @@ const Navbar = () => {
             </li>
             <li>
               <Link href={`/${username}`}>
-                <Image alt="user profile image" src={user?.photoURL} />
+                <Image
+                  alt="user profile image"
+                  height={16}
+                  src={user?.photoURL as string}
+                  width={16}
+                />
               </Link>
             </li>
           </>

@@ -1,8 +1,10 @@
+import { User } from 'firebase/auth';
+
 import { IUserState, UserAction, userActions } from '../Context.types';
 
 export const initialUserState: IUserState = {
   username: '',
-  name: ''
+  user: null as unknown as User
 };
 
 const userReducer = (state: IUserState, action: UserAction): IUserState => {
@@ -10,12 +12,12 @@ const userReducer = (state: IUserState, action: UserAction): IUserState => {
     case userActions.SET_USERNAME:
       return {
         ...state,
-        username: action.payload
+        username: action.payload as string
       };
-    case userActions.SET_NAME:
+    case userActions.SET_USER:
       return {
         ...state,
-        name: action.payload
+        user: action.payload as User | undefined | null
       };
 
     default:

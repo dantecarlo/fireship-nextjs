@@ -3,9 +3,13 @@
 import { auth } from 'src/firebase';
 
 const SignOutButton = () => {
+  const signOut = () => {
+    auth.signOut();
+  };
+
   return (
-    <button className="btn-google" type="button" onClick={() => auth.signOut()}>
-      Sign in with Google
+    <button className="btn-google" type="button" onClick={signOut}>
+      Sign out
     </button>
   );
 };

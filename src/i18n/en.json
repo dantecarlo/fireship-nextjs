@@ -7,5 +7,10 @@
       "writePost": "Write Post",
       "login": "Log in"
     }
+  },
+  "page": {
+    "enter": {
+      "signOut": "Sign out"
+    }
   }
 }

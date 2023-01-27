@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { IUserPage } from './UserPage.types';
+
 const UserPage: FC<IUserPage> = ({ params }) => {
   const { username } = params;
 

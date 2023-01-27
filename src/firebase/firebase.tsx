@@ -2,7 +2,7 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore/lite';
+import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -21,3 +21,11 @@ export const analytics = isBrowser ? getAnalytics(app) : null;
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const googleAuthProvider = new GoogleAuthProvider();
+export const batch = writeBatch(db);
+
+export const getDocRef = (collectionName: string) => doc(db, collectionName);
+
+export const getDocument = async (collectionName: string) => {
+  const querySnapshot = await getDoc(getDocRef(collectionName));
+  return querySnapshot;
+};

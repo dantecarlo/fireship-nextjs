@@ -9,9 +9,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <head />
       <body>
-        <Toast />
-        <Navbar />
-        <ContextProvider>{children}</ContextProvider>
+        <ContextProvider>
+          <Toast />
+          <Navbar />
+          {children}
+        </ContextProvider>
       </body>
     </html>
   );
