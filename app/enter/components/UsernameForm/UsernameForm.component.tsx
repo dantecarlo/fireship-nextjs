@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
-import { batch, getDocRef, getDocument } from 'src/firebase';
+import { batch, getDocument, getDocumentRef } from 'src/firebase';
 import useUserContext from 'src/hooks/useUserContext';
 
 import UserNameMessage from '../UserNameMessage';
@@ -15,8 +15,8 @@ const UsernameForm = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const userDoc = getDocRef(`users/${user?.uid}`);
-    const usernameDoc = getDocRef(`usernames/${usernameValue}`);
+    const userDoc = getDocumentRef(`users/${user?.uid}`);
+    const usernameDoc = getDocumentRef(`usernames/${usernameValue}`);
 
     batch.set(
       userDoc,

@@ -16,7 +16,7 @@ const useUserContext = () => {
     });
   };
 
-  const setUser = (newUser: User | undefined | null) => {
+  const setUser = (newUser: User | undefined) => {
     dispatch({
       type: userActions.SET_USER,
       payload: newUser

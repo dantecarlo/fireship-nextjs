@@ -22,7 +22,7 @@ const useAuthFirebaseHook = () => {
       getUser();
     } else {
       setUsername('');
-      setUser(null);
+      setUser(undefined);
     }
   }, [user]);
 

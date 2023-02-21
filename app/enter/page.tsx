@@ -9,7 +9,6 @@ import UsernameForm from './components/UsernameForm';
 const EnterPage = () => {
   const { user, username } = useUserContext();
 
-  // eslint-disable-next-line no-nested-ternary
   return (
     <main>
       {user && !username ? <UsernameForm /> : <SignInButton />}
