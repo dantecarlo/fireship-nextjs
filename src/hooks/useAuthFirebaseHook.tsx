@@ -6,6 +6,8 @@ import { auth, getDocument } from 'src/firebase';
 
 import useUserContext from './useUserContext';
 
+export const dynamic = 'force-dynamic';
+
 const useAuthFirebaseHook = () => {
   const [user] = useAuthState(auth);
   const { username, setUsername, setUser } = useUserContext();

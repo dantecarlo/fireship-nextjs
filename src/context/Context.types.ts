@@ -10,11 +10,11 @@ export interface IUserState {
 }
 
 export interface UserAction {
-  type: string;
+  type: keyof typeof USER_ACTIONS;
   payload: string | User | null | undefined;
 }
 
-export const userActions = {
+export const USER_ACTIONS = {
   SET_USERNAME: 'SET_USERNAME',
   SET_USER: 'SET_USER'
-};
+} as const;

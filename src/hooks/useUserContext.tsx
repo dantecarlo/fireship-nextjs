@@ -2,7 +2,7 @@
 
 import { User } from 'firebase/auth';
 import { useContextDispatch, useStateDispatch } from 'src/context/Context.provider';
-import { userActions } from 'src/context/Context.types';
+import { USER_ACTIONS } from 'src/context/Context.types';
 
 const useUserContext = () => {
   const { username, user } = useStateDispatch();
@@ -11,14 +11,14 @@ const useUserContext = () => {
 
   const setUsername = (newUsername: string) => {
     dispatch({
-      type: userActions.SET_USERNAME,
+      type: USER_ACTIONS.SET_USERNAME,
       payload: newUsername
     });
   };
 
   const setUser = (newUser: User | undefined) => {
     dispatch({
-      type: userActions.SET_USER,
+      type: USER_ACTIONS.SET_USER,
       payload: newUser
     });
   };

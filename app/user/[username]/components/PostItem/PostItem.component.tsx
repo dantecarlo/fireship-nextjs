@@ -9,7 +9,7 @@ const PostItem = ({ post, admin = false }: IPostItem) => {
 
   return (
     <div className="card">
-      <Link href={`/${post.username}`}>
+      <Link href={`/user/${post.username}`}>
         <strong>By @{post.username}</strong>
       </Link>
 

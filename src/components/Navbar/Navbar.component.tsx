@@ -25,14 +25,14 @@ const Navbar = () => {
         {username ? (
           <>
             <li className="push-left">
-              <Link href="/admin">
+              <Link href="/post">
                 <button className="btn-blue" type="button">
                   {i18n.component.navbar.writePost}
                 </button>
               </Link>
             </li>
             <li>
-              <Link href={`/${username}`}>
+              <Link href={`/user/${username}`}>
                 <Image
                   alt="user profile image"
                   height={16}

@@ -4,6 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import {
   collection,
+  collectionGroup,
   doc,
   DocumentData,
   getDoc,
@@ -13,6 +14,8 @@ import {
   orderBy,
   query,
   QueryDocumentSnapshot,
+  startAfter,
+  Timestamp,
   where,
   writeBatch
 } from 'firebase/firestore/lite';
@@ -41,9 +44,9 @@ export const batch = writeBatch(db);
 export const getDocumentRef = (documentName: string) => doc(db, documentName);
 
 export const getDocument = async (documentName: string) => {
-  const querySnapshot = await getDoc(getDocumentRef(documentName));
+  const documentQuery = await getDoc(getDocumentRef(documentName));
 
-  return querySnapshot;
+  return documentQuery;
 };
 
 export const getCollectionRef = (collectionName: string) => {
@@ -56,8 +59,8 @@ export const getUserWithUsername = async (username: string) => {
   const userRef = getCollectionRef('users');
   const q = query(userRef, where('username', '==', username));
 
-  const querySnapshot = await getDocs(q);
-  const userDoc = querySnapshot.docs[0];
+  const documentQuery = await getDocs(q);
+  const userDoc = documentQuery.docs[0];
 
   return userDoc;
 };
@@ -74,20 +77,59 @@ export const postToJSON = (documentRef: QueryDocumentSnapshot<DocumentData>) => 
   };
 };
 
-export const getPublishedPosts = async (username: string) => {
+export const getPublishedPosts = async (username: string, startAfterPost?: Timestamp | number) => {
   const userRef = await getUserWithUsername(username);
-  console.log(userRef?.id);
+  const cursor =
+    startAfterPost && typeof startAfterPost === 'number'
+      ? Timestamp.fromMillis(startAfterPost)
+      : startAfterPost;
 
   const postsRef = collection(db, `users/${userRef?.id}/posts`);
-  const q = query(
-    postsRef,
-    where('published', '==', true),
-    orderBy('createdAt', 'desc'),
-    limit(PAGINATION_LIMIT)
-  );
+  const q = startAfterPost
+    ? query(
+        postsRef,
+        where('published', '==', true),
+        orderBy('createdAt', 'desc'),
+        startAfter(cursor),
+        limit(PAGINATION_LIMIT)
+      )
+    : query(
+        postsRef,
+        where('published', '==', true),
+        orderBy('createdAt', 'desc'),
+        limit(PAGINATION_LIMIT)
+      );
 
-  const querySnapshot = await getDocs(q);
-  const posts = querySnapshot.docs.map(postToJSON);
+  const documentQuery = await getDocs(q);
+  const posts = documentQuery.docs.map(postToJSON);
+
+  return posts as unknown as PostType[];
+};
+
+export const getAllPublishedPosts = async (startAfterPost?: Timestamp | number) => {
+  const postsRef = collectionGroup(db, 'posts');
+  const cursor =
+    startAfterPost && typeof startAfterPost === 'number'
+      ? Timestamp.fromMillis(startAfterPost)
+      : Timestamp.fromMillis((startAfterPost as Timestamp)?.toMillis());
+
+  const q = startAfterPost
+    ? query(
+        postsRef,
+        where('published', '==', true),
+        orderBy('createdAt', 'desc'),
+        startAfter(cursor),
+        limit(PAGINATION_LIMIT)
+      )
+    : query(
+        postsRef,
+        where('published', '==', true),
+        orderBy('createdAt', 'desc'),
+        limit(PAGINATION_LIMIT)
+      );
+
+  const documentQuery = await getDocs(q);
+  const posts = documentQuery.docs.map(postToJSON);
 
   return posts as unknown as PostType[];
 };

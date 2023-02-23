@@ -1,7 +1,11 @@
 import './Spinner.module.css';
 
-const Spinner = () => {
-  return <div className="loader" />;
+import { FC } from 'react';
+
+import { ISpinner } from './Spinner.types';
+
+const Spinner: FC<ISpinner> = ({ show }) => {
+  return show ? <div className="loader" /> : null;
 };
 
 export default Spinner;
